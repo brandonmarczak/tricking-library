@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TrickingLibrary.Api;
 
 namespace TrickingLibrary
 {
@@ -17,10 +18,9 @@ namespace TrickingLibrary
         {
             services.AddControllers();
 
-            services.AddCors(options => options.AddPolicy(AllCors, build =>
-                                                                    build.AllowAnyHeader()
-                                                                    .AllowAnyOrigin()
-                                                                    .AllowAnyMethod()));
+            services.AddSingleton<TrickyStore>();
+
+            services.AddCors(options => options.AddPolicy(AllCors, build => build.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
