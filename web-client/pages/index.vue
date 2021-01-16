@@ -1,6 +1,8 @@
 <template>
   <div>
 
+    <v-file-input accept="video/*" @change="handleFile"></v-file-input>
+
     <div v-if="tricks">
       <p v-for="t in tricks">{{ t.name }}</p>
     </div>
@@ -41,6 +43,15 @@ export default {
     async saveTrick() {
       await this.createTrick({ trick: { name: this.trickName } });
       this.trickName = "";
+    },
+    async handleFile(file){
+      if(!file) return;
+
+      const form = new FormData();
+      form.append("video", file)
+
+      const result = await Axios.post("http://localhost:5000/api/videos", form);
+      console.log("result: ", result);
     }
   }
   // async fetch() {
